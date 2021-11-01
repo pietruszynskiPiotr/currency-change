@@ -1,4 +1,4 @@
-package es.ulpgc;
+package es.ulpgc.services;
 
 import es.ulpgc.model.Currency;
 import org.springframework.stereotype.Service;
@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CurrencyReader {
+public class CurrencyReaderService {
 
     public List<Currency> read() throws IOException {
-        List<String> strings = Files.readAllLines(Paths.get("currencies.txt"));
+        List<String> strings = Files.readAllLines(Paths.get("currency-change-backend/currencies.txt"));
 
         return strings.stream()
                 .map(line -> line.split(", "))

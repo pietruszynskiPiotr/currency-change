@@ -1,0 +1,6 @@
+GET http://localhost:8080/currencies
+Accept: */*
+
+###
+GET https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/jpy.json
+Accept: */*

@@ -1,8 +1,10 @@
 package es.ulpgc.model;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public class Currency {
 
     private final String currency;

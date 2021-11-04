@@ -1,6 +1,6 @@
 package es.ulpgc.controller;
 
-import es.ulpgc.model.Currency;
+import es.ulpgc.model.Currencies;
 import es.ulpgc.services.CurrencyService;
 import es.ulpgc.model.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/currencies")
@@ -33,7 +32,7 @@ public class CurrencyController {
     }
 
     @GetMapping
-    public List<Currency> getCurrencies() throws IOException {
+    public Currencies getCurrencies() throws IOException {
         return currencyService.getCurrencies();
     }
 

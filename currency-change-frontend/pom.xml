@@ -21,6 +21,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>es.ulpgc</groupId>
+            <artifactId>currency-change-common</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -1,10 +1,18 @@
 package es.ulpgc;
 
+import es.ulpgc.model.Currencies;
+import es.ulpgc.services.CurrencyChangeClient;
+
 import javax.swing.*;
+import java.util.Arrays;
 
 public class MyFrame extends JFrame {
 
     private final JPanel jPanel;
+
+    private final CurrencyChangeClient client;
+
+    private final Currencies currencies;
 
     public MyFrame() {
         super("Currencies exchange");
@@ -12,9 +20,9 @@ public class MyFrame extends JFrame {
         setResizable(false);
         jPanel = new JPanel();
         JComboBox<String> currenciesSource = new JComboBox<>();
-        currenciesSource.addItem("EUR");
-        currenciesSource.addItem("USD");
-
+        this.client = new CurrencyChangeClient();
+        this.currencies = client.getCurrencies();
+        Arrays.stream(this.currencies.getCurrencies()).forEach(c -> currenciesSource.addItem(c.getCurrency()));
 
         JComboBox<String> currenciesDestination = new JComboBox<>();
         jPanel.add(currenciesSource);

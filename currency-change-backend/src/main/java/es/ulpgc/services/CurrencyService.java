@@ -1,6 +1,6 @@
 package es.ulpgc.services;
 
-import es.ulpgc.model.Currency;
+import es.ulpgc.model.Currencies;
 import es.ulpgc.model.ExchangeRate;
 import es.ulpgc.model.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.List;
 
 @Service
 public class CurrencyService {
@@ -31,8 +30,8 @@ public class CurrencyService {
         return new Exchange(from, to, value, afterExchange);
     }
 
-    public List<Currency> getCurrencies() throws IOException {
-        return currencyReader.read();
+    public Currencies getCurrencies() throws IOException {
+        return new Currencies(currencyReader.read());
     }
 
 }

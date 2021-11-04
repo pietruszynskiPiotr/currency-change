@@ -7,12 +7,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CurrencyReaderService {
 
-    public List<Currency> read() throws IOException {
+    public Currency[] read() throws IOException {
         List<String> strings = Files.readAllLines(Paths.get("currency-change-backend/currencies.txt"));
 
         return strings.stream()
@@ -23,7 +22,7 @@ public class CurrencyReaderService {
                     String unit = arr[2];
                     return new Currency(currency, name, unit);
                 })
-                .collect(Collectors.toList());
+                .toArray(Currency[]::new);
     }
 
 }

@@ -1,7 +1,7 @@
 package es.ulpgc.services;
 
-import es.ulpgc.model.ExchangeRate;
 import es.ulpgc.model.Currency;
+import es.ulpgc.model.ExchangeRate;
 import es.ulpgc.model.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

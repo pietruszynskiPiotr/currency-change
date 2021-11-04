@@ -1,7 +1,7 @@
 package es.ulpgc.controller;
 
-import es.ulpgc.services.CurrencyService;
 import es.ulpgc.model.Currency;
+import es.ulpgc.services.CurrencyService;
 import es.ulpgc.model.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

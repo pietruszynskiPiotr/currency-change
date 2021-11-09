@@ -1,27 +1,30 @@
 package es.ulpgc.services;
 
 import es.ulpgc.model.Currencies;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import es.ulpgc.model.Exchange;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
-import java.util.List;
+import java.math.BigDecimal;
 
 public class CurrencyChangeClient {
 
     private static final String CURRENCIES_URL = "http://localhost:8080/currencies";
 
+    private static final String EXCHANGE_URL = "http://localhost:8080/currencies/{from}/{to}/{value}";
+
     public Currencies getCurrencies() {
         RestTemplate restTemplate = new RestTemplate();
-//        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-//        mappingJackson2HttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
-//        restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
         ResponseEntity<Currencies> currencies = restTemplate
                 .getForEntity(CURRENCIES_URL, Currencies.class);
-        return new Currencies(currencies.getBody().getCurrencies());
+        return currencies.getBody();
+    }
+
+    public Exchange exchange(String from, String to, Double value) {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Exchange> exchange = restTemplate
+                .getForEntity(EXCHANGE_URL, Exchange.class, from.toLowerCase(), to.toLowerCase(), value);
+        return exchange.getBody();
     }
 
 }

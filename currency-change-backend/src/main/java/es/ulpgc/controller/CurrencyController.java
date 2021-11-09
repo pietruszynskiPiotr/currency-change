@@ -3,7 +3,7 @@ package es.ulpgc.controller;
 import es.ulpgc.model.Currencies;
 import es.ulpgc.services.CurrencyService;
 import es.ulpgc.model.Exchange;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,14 +15,10 @@ import java.text.ParseException;
 
 @RestController
 @RequestMapping(value = "/currencies")
+@RequiredArgsConstructor
 public class CurrencyController {
 
-    private CurrencyService currencyService;
-
-    @Autowired
-    public CurrencyController(CurrencyService currencyService) {
-        this.currencyService = currencyService;
-    }
+    private final CurrencyService currencyService;
 
     @GetMapping("/{from}/{to}/{value}")
     public Exchange getExchange(@PathVariable("from") String from,

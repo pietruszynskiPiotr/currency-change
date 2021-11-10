@@ -11,15 +11,15 @@ public class CurrencyChangeClient {
 
     private static final String EXCHANGE_URL = "http://localhost:8080/currencies/{from}/{to}/{value}";
 
+    private final RestTemplate restTemplate = new RestTemplate();
+
     public Currencies getCurrencies() {
-        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Currencies> currencies = restTemplate
                 .getForEntity(CURRENCIES_URL, Currencies.class);
         return currencies.getBody();
     }
 
     public Exchange exchange(String from, String to, Double value) {
-        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Exchange> exchange = restTemplate
                 .getForEntity(EXCHANGE_URL, Exchange.class, from.toLowerCase(), to.toLowerCase(), value);
         return exchange.getBody();

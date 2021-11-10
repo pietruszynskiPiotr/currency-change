@@ -11,47 +11,35 @@ import java.util.Arrays;
 
 public class MyFrame extends JFrame {
 
-    private final JPanel jPanelInput;
-
-    private final JPanel jPanelMain;
-
     private final JComboBox<String> currenciesSource;
 
     private final JComboBox<String> currenciesDestination;
 
-    private final Label sourceLabel;
-
-    private final Label destinationLabel;
-
     private final CurrencyChangeClient client;
 
-    private final Currencies currencies;
-
     private final JTextField jTextField;
-
-    private final Label inputLabel;
 
     public MyFrame() {
         super("Currencies exchange");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         this.client = new CurrencyChangeClient();
-        jPanelMain = new JPanel();
+        JPanel jPanelMain = new JPanel();
         jPanelMain.setLayout(new BoxLayout(jPanelMain, BoxLayout.PAGE_AXIS));
-        jPanelInput = new JPanel();
+        JPanel jPanelInput = new JPanel();
         jPanelMain.add(jPanelInput);
         currenciesSource = new JComboBox<>();
         currenciesDestination = new JComboBox<>();
         jTextField = new JTextField();
-        inputLabel = new Label("Input value: ");
-        sourceLabel = new Label("Select source currency: ");
-        destinationLabel = new Label("Select destination currency: ");
+        Label inputLabel = new Label("Input value: ");
+        Label sourceLabel = new Label("Select source currency: ");
+        Label destinationLabel = new Label("Select destination currency: ");
         Label output = new Label();
         JButton jButton = new JButton("OK");
         jButton.setAlignmentX(CENTER_ALIGNMENT);
         jButton.addActionListener(r -> {
             String text = jTextField.getText();
-            Double value = Double.valueOf(text);
+            Double value = Double.parseDouble(text);
             String source = (String) currenciesSource.getSelectedItem();
             String destination = (String) currenciesDestination.getSelectedItem();
             Exchange exchange = client.exchange(source, destination, value);
@@ -80,9 +68,9 @@ public class MyFrame extends JFrame {
         vGroup.addGroup(layout.createParallelGroup().
                 addComponent(destinationLabel).addComponent(currenciesDestination));
         layout.setVerticalGroup(vGroup);
-        this.currencies = client.getCurrencies();
-        Arrays.stream(this.currencies.getCurrencies()).forEach(c -> currenciesSource.addItem(c.getCurrency()));
-        Arrays.stream(this.currencies.getCurrencies()).forEach(c -> currenciesDestination.addItem(c.getCurrency()));
+        Currencies currencies = client.getCurrencies();
+        Arrays.stream(currencies.getCurrencies()).forEach(c -> currenciesSource.addItem(c.getCurrency()));
+        Arrays.stream(currencies.getCurrencies()).forEach(c -> currenciesDestination.addItem(c.getCurrency()));
         add(jPanelMain);
         pack();
     }

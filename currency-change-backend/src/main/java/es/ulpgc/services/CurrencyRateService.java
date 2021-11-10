@@ -16,27 +16,27 @@ import java.util.Date;
 @Service
 public class CurrencyRateService {
 
-    private static final DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
-    private static final String url = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/{from}/{to}.json";
+    private static final String ACTUAL_CURRENCY_URL = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/{from}/{to}.json";
 
     public ExchangeRate exchange(String from, String to) throws ParseException {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> entity = restTemplate
-                .getForEntity(url, String.class, from, to);
-        String body = entity.getBody();
-        JSONObject jsonObject = new JSONObject(body);
+                .getForEntity(ACTUAL_CURRENCY_URL, String.class, from, to);
+        String json = entity.getBody();
+        JSONObject jsonObject = new JSONObject(json);
         JSONArray names = jsonObject.names();
         String field1 = (String) names.get(0);
         String field2 = (String) names.get(1);
         Date parse;
         BigDecimal cost;
         if (field1.equals("date")) {
-            parse = format.parse((String) jsonObject.get(field1));
-            cost = (BigDecimal) jsonObject.get(field2);
+            parse = DATE_FORMAT.parse((String) jsonObject.get(field1));
+            cost = new BigDecimal(jsonObject.get(field2).toString());
         } else {
-            parse = format.parse((String) jsonObject.get(field2));
-            cost = (BigDecimal) jsonObject.get(field1);
+            parse = DATE_FORMAT.parse((String) jsonObject.get(field2));
+            cost = new BigDecimal(jsonObject.get(field2).toString());
         }
         return new ExchangeRate(parse, cost);
     }

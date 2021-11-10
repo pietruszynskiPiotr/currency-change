@@ -5,8 +5,6 @@ import es.ulpgc.model.Exchange;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
-
 public class CurrencyChangeClient {
 
     private static final String CURRENCIES_URL = "http://localhost:8080/currencies";

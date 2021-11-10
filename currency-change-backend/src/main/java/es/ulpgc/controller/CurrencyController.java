@@ -4,32 +4,54 @@ import es.ulpgc.model.Currencies;
 import es.ulpgc.services.CurrencyService;
 import es.ulpgc.model.Exchange;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 
+import static java.lang.String.format;
+
 @RestController
 @RequestMapping(value = "/currencies")
 @RequiredArgsConstructor
+@Slf4j
 public class CurrencyController {
 
     private final CurrencyService currencyService;
 
-    @GetMapping("/{from}/{to}/{value}")
-    public Exchange getExchange(@PathVariable("from") String from,
-                                @PathVariable("to") String to,
-                                @PathVariable("value") BigDecimal value) throws ParseException {
-        return currencyService.exchange(from, to, value);
+    @GetMapping(value = "/{from}/{to}/{value}")
+    public Exchange exchange(@PathVariable("from") String from,
+                             @PathVariable("to") String to,
+                             @PathVariable("value") BigDecimal value) {
+        try {
+            log.info(format("Exchange from %s to %s.", from, to));
+            return currencyService.exchange(from, to, value);
+        } catch (ParseException e) {
+            log.error(format("Parse exception happened: %s.", e.getMessage()), e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Exchange BAD REQUEST", e);
+        } catch (HttpClientErrorException e) {
+            log.error(format("Http client error exception happened: %s.", e.getMessage()), e);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Exchange FORBIDDEN", e);
+        }
     }
 
     @GetMapping
-    public Currencies getCurrencies() throws IOException {
-        return currencyService.getCurrencies();
+    public Currencies getCurrencies() {
+        try {
+            log.info("Get currencies.");
+            return currencyService.getCurrencies();
+        } catch (IOException e) {
+            log.error(format("Input/Output exception happened: %s.", e.getMessage()), e);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Exchange FORBIDDEN", e);
+        }
     }
 
 }

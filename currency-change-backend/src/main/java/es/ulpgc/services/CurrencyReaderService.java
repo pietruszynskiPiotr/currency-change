@@ -13,7 +13,6 @@ public class CurrencyReaderService {
 
     public Currency[] read() throws IOException {
         List<String> strings = Files.readAllLines(Paths.get("currency-change-backend/currencies.txt"));
-
         return strings.stream()
                 .map(line -> line.split(", "))
                 .map(arr -> {

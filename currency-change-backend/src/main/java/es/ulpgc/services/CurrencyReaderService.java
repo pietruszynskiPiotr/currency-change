@@ -1,5 +1,6 @@
 package es.ulpgc.services;
 
+import es.ulpgc.model.Currencies;
 import es.ulpgc.model.Currency;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,9 @@ import java.util.List;
 @Service
 public class CurrencyReaderService {
 
-    public Currency[] read() throws IOException {
+    public Currencies read() throws IOException {
         List<String> strings = Files.readAllLines(Paths.get("currency-change-backend/currencies.txt"));
-        return strings.stream()
+        Currency[] currencies = strings.stream()
                 .map(line -> line.split(", "))
                 .map(arr -> {
                     String currency = arr[0];
@@ -22,6 +23,7 @@ public class CurrencyReaderService {
                     return new Currency(currency, name, unit);
                 })
                 .toArray(Currency[]::new);
+        return new Currencies(currencies);
     }
 
 }

@@ -21,9 +21,9 @@ public class MyFrame extends JFrame {
 
     public MyFrame() {
         super("Currencies exchange");
+        this.client = new CurrencyChangeClient();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
-        this.client = new CurrencyChangeClient();
         JPanel jPanelMain = new JPanel();
         jPanelMain.setLayout(new BoxLayout(jPanelMain, BoxLayout.PAGE_AXIS));
         JPanel jPanelInput = new JPanel();
@@ -31,6 +31,7 @@ public class MyFrame extends JFrame {
         currenciesSource = new JComboBox<>();
         currenciesDestination = new JComboBox<>();
         jTextField = new JTextField();
+
         Label inputLabel = new Label("Input value: ");
         Label sourceLabel = new Label("Select source currency: ");
         Label destinationLabel = new Label("Select destination currency: ");
@@ -39,7 +40,7 @@ public class MyFrame extends JFrame {
         jButton.setAlignmentX(CENTER_ALIGNMENT);
         jButton.addActionListener(r -> {
             String text = jTextField.getText();
-            Double value = Double.parseDouble(text);
+            BigDecimal value = new BigDecimal(text);
             String source = (String) currenciesSource.getSelectedItem();
             String destination = (String) currenciesDestination.getSelectedItem();
             Exchange exchange = client.exchange(source, destination, value);

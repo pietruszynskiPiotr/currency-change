@@ -5,6 +5,8 @@ import es.ulpgc.model.Exchange;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
+
 public class CurrencyChangeClient {
 
     private static final String CURRENCIES_URL = "http://localhost:8080/currencies";
@@ -19,7 +21,7 @@ public class CurrencyChangeClient {
         return currencies.getBody();
     }
 
-    public Exchange exchange(String from, String to, Double value) {
+    public Exchange exchange(String from, String to, BigDecimal value) {
         ResponseEntity<Exchange> exchange = restTemplate
                 .getForEntity(EXCHANGE_URL, Exchange.class, from.toLowerCase(), to.toLowerCase(), value);
         return exchange.getBody();

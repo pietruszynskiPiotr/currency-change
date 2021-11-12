@@ -1,6 +1,7 @@
 package es.ulpgc.controller;
 
 import es.ulpgc.model.Currencies;
+import es.ulpgc.services.CurrencyReaderService;
 import es.ulpgc.services.CurrencyService;
 import es.ulpgc.model.Exchange;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +28,14 @@ public class CurrencyController {
 
     private final CurrencyService currencyService;
 
+    private final CurrencyReaderService currencyReaderService;
+
     @GetMapping(value = "/{from}/{to}/{value}")
     public Exchange exchange(@PathVariable("from") String from,
                              @PathVariable("to") String to,
                              @PathVariable("value") BigDecimal value) {
         try {
-            log.info(format("Exchange from %s to %s.", from, to));
+            log.info(format("Exchange from %s to %s with amount %s.", from, to, value));
             return currencyService.exchange(from, to, value);
         } catch (ParseException e) {
             log.error(format("Parse exception happened: %s.", e.getMessage()), e);
@@ -47,7 +50,7 @@ public class CurrencyController {
     public Currencies getCurrencies() {
         try {
             log.info("Get currencies.");
-            return currencyService.getCurrencies();
+            return currencyReaderService.read();
         } catch (IOException e) {
             log.error(format("Input/Output exception happened: %s.", e.getMessage()), e);
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Exchange FORBIDDEN", e);

@@ -1,6 +1,7 @@
 package es.ulpgc.services;
 
 import es.ulpgc.model.ExchangeRate;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +15,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
+@RequiredArgsConstructor
 public class CurrencyRateService {
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     private static final String ACTUAL_CURRENCY_URL = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/{from}/{to}.json";
 
+    private final RestTemplate restTemplate;
+
     public ExchangeRate exchange(String from, String to) throws ParseException {
-        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> entity = restTemplate
                 .getForEntity(ACTUAL_CURRENCY_URL, String.class, from, to);
         String json = entity.getBody();
@@ -36,7 +39,7 @@ public class CurrencyRateService {
             cost = new BigDecimal(jsonObject.get(field2).toString());
         } else {
             parse = DATE_FORMAT.parse((String) jsonObject.get(field2));
-            cost = new BigDecimal(jsonObject.get(field2).toString());
+            cost = new BigDecimal(jsonObject.get(field1).toString());
         }
         return new ExchangeRate(parse, cost);
     }

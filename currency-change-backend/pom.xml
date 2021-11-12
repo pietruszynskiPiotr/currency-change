@@ -45,7 +45,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.decerto.CitationServer</mainClass>
+                            <mainClass>es.ulpgc.CurrencyChangeServer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -82,6 +82,12 @@
         <dependency>
             <groupId>es.ulpgc</groupId>
             <artifactId>currency-change-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

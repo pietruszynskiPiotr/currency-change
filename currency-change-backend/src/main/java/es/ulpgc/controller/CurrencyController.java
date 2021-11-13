@@ -49,7 +49,7 @@ public class CurrencyController {
     @GetMapping
     public Currencies getCurrencies() {
         try {
-            log.info("Get currencies.");
+            log.info("Get available currencies.");
             return currencyReaderService.read();
         } catch (IOException e) {
             log.error(format("Input/Output exception happened: %s.", e.getMessage()), e);

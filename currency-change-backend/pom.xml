@@ -14,7 +14,6 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <json.version>20210307</json.version>
     </properties>
 
     <build>
@@ -27,15 +26,6 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <release>${java.version}</release>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>appengine-maven-plugin</artifactId>
-                <version>${appengine.version}</version>
-                <configuration>
-                    <version>1</version>
-                    <projectId>GCLOUD_CONFIG</projectId>
                 </configuration>
             </plugin>
             <plugin>
